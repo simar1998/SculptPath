@@ -1,0 +1,3 @@
+C:/Code/SculptPath/cmake-build-debug/CMakeFiles/SculptPath.dir
+C:/Code/SculptPath/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Code/SculptPath/cmake-build-debug/CMakeFiles/rebuild_cache.dir
