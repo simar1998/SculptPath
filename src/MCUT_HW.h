@@ -4,7 +4,7 @@
 
 #ifndef SCULPTPATH_MCUT_HW_H
 #define SCULPTPATH_MCUT_HW_H
-
+#include "mcut/mcut.h"
 
 class MCUT_HW {
 
