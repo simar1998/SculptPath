@@ -1,3 +1,0 @@
-C:/Users/simar/CLionProjects/SculptPath-2/cmake-build-debug/CMakeFiles/SculptPath.dir
-C:/Users/simar/CLionProjects/SculptPath-2/cmake-build-debug/CMakeFiles/edit_cache.dir
-C:/Users/simar/CLionProjects/SculptPath-2/cmake-build-debug/CMakeFiles/rebuild_cache.dir

@@ -4,8 +4,10 @@
 
 #include <cstdio>
 #include <cstdlib>
+#include <iostream>
 #include "MCUT_HW.h"
 
+using namespace std;
 
 
 void writeOFF(
@@ -66,6 +68,7 @@ void MCUT_HW::mcut_hw() {
         fprintf(stderr, "could not create context (err=%d)\n", (int)err);
         exit(1);
     }
+
     err = mcDispatch(
             context,
             MC_DISPATCH_VERTEX_ARRAY_DOUBLE,
@@ -89,5 +92,9 @@ void MCUT_HW::mcut_hw() {
     //Querry number of components that are available  of all types
 
     //TODO
+
+
+    cout << "TESTING" << std::endl;
+
 
 }
