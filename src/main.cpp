@@ -1,6 +1,5 @@
 #include <iostream>
 
-#include "mcut/mcut.h"
 #include "MCUT_HW.h"
 
 int main() {

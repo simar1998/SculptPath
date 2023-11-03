@@ -4,6 +4,7 @@
 
 #include "MCUT_HW.h"
 #include "mcut/mcut.h"
+
 void MCUT_HW::mcut_hw() {
 
     //Source mesh
@@ -31,46 +32,6 @@ void MCUT_HW::mcut_hw() {
     };
     uint32_t numCubeVertices = 8;
     uint32_t numCubeFaces = 6;
-
-    //CUT Mesh
-
-    float cutMeshVertices[] = {
-            -20, -4, 0, //0
-            0, 20, 20, //1
-            20, -4, 0, //2
-            0, 20, -20 //3
-    };
-    uint32_t cutMeshFaces[] = {
-            0, 1, 2, //0
-            0, 2, 3 //1
-    };
-    uint32_t cutMeshFaceSizes[] = {
-            3, 3
-    };
-    uint32_t numCutMeshVertices = 4;
-    uint32_t numCutMeshFaces = 2;
-
-    //Creating context
-
-    McContext context = MC_NULL_HANDLE;
-    mcCreateContext(&context, MC_NULL_HANDLE);
-
-    //Dispacthing call
-
-    mcDispatch(
-            context,
-            MC_DISPATCH_VERTEX_ARRAY_FLOAT,
-            cubeVertices,
-            cubeFaces,
-            cubeFaceSizes,
-            numCubeVertices,
-            numCubeFaces,
-            cutMeshVertices,
-            cutMeshFaces,
-            cutMeshFaceSizes,
-            numCutMeshVertices,
-            numCutMeshFaces);
-
 
 
 }
