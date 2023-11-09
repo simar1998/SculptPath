@@ -81,6 +81,47 @@ void MeshLoad::loadMesh() {
         }
 
         file.close();
+    }
+    /**
+     * Standard file mesh loader for OBJ file format
+     */
+     //TODO not OBJ | fixme
+    else if (getMeshFormat(false) == OBJ) {
+        std::ifstream file(filePath, std::ios::in | std::ios::binary);
+        if (!file) {
+            std::cerr << "Error opening file " << filePath << std::endl;
+            return;
+        }
+
+        file.ignore(80); // Ignores STL header 80 bytes
+
+        unsigned int numTriangles;
+        file.read(reinterpret_cast<char*>(&numTriangles), sizeof(numTriangles));
+
+        for (unsigned int i = 0; i < numTriangles; ++i) {
+            float normal[3], vertex[3][3];
+            file.read(reinterpret_cast<char*>(normal), 3 * sizeof(float)); // normal is not used
+
+            for (int j = 0; j < 3; ++j) {
+                file.read(reinterpret_cast<char*>(vertex[j]), 3 * sizeof(float));
+            }
+
+            file.ignore(2); // Skipping the attribute byte count
+
+            std::vector<Mesh::Vertex_index> face_vertices;
+            for (int j = 0; j < 3; ++j) {
+                face_vertices.push_back(mesh.add_vertex(Point(vertex[j][0], vertex[j][1], vertex[j][2])));
+            }
+            mesh.add_face(face_vertices);
+        }
+
+        std::cout << "Opened file as OBJ format" << std::endl;
+
+        if (file.fail()) {
+            std::cerr << "Error reading file " << filePath << std::endl;
+        }
+
+        file.close();
     } else {
         std::cerr << "Unsupported file format." << std::endl;
     }

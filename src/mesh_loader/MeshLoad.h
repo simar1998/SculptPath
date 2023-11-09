@@ -15,9 +15,11 @@ class MeshLoad {
 
     std::string filePath;
 
-    explicit MeshLoad(std::string& filePath);
+
 
 public:
+    explicit MeshLoad(std::string& filePath);
+
     typedef CGAL::Simple_cartesian<double> Kernel;
     typedef Kernel::Point_3 Point;
     typedef CGAL::Surface_mesh<Point> Mesh;

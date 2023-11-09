@@ -1,13 +1,16 @@
 #include <iostream>
 
-#include "MCUT_HW.h"
+#include "mesh_loader/MeshLoad.h"
 
 int main() {
 
     std::cout << "Hello, World!" << std::endl;
 
-    MCUT_HW mc;
-    mc.mcut_hw();
+    std::string filePath = "C:\\Code\\SculptPath\\assets\\test_mp_2.stl";
+
+    MeshLoad load(filePath);
+    load.loadMesh();
+
 
     return 0;
 }
