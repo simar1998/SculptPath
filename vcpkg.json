@@ -1,0 +1,10 @@
+{
+  "name" : "sculptpath",
+  "version-string" : "1.0.0",
+  "builtin-baseline" : "fe1e9f508ee13ed3d0a7d318beac7efe1ec4f9d7",
+  "dependencies" : [ {
+    "name" : "cgal",
+    "version>=" : "5.6",
+    "$comment" : "    find_package(CGAL CONFIG REQUIRED)\n\n    target_link_libraries(main PRIVATE CGAL::CGAL)\n"
+  } ]
+}
