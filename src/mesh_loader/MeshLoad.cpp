@@ -5,7 +5,8 @@
 #include "MeshLoad.h"
 #include <fstream>
 #include <vector>
-
+#include "OBJ_Loader.h"
+#include <CGAL/convex_hull_3.h>
 
 /**
  * Standard constructor that sets up the file path for mesh
@@ -87,42 +88,129 @@ void MeshLoad::loadMesh() {
      */
      //TODO not OBJ | fixme
     else if (getMeshFormat(false) == OBJ) {
-        std::ifstream file(filePath, std::ios::in | std::ios::binary);
-        if (!file) {
-            std::cerr << "Error opening file " << filePath << std::endl;
-            return;
-        }
+        std::cerr << "Opening OBJ file " << filePath << std::endl;
 
-        file.ignore(80); // Ignores STL header 80 bytes
+            //TODO set up CGAL obj load
 
-        unsigned int numTriangles;
-        file.read(reinterpret_cast<char*>(&numTriangles), sizeof(numTriangles));
+        /** Testing **/
 
-        for (unsigned int i = 0; i < numTriangles; ++i) {
-            float normal[3], vertex[3][3];
-            file.read(reinterpret_cast<char*>(normal), 3 * sizeof(float)); // normal is not used
+            objl::Loader Loader;
 
-            for (int j = 0; j < 3; ++j) {
-                file.read(reinterpret_cast<char*>(vertex[j]), 3 * sizeof(float));
+            bool loadout = Loader.LoadFile(filePath);
+
+
+        // If so continue
+        if (loadout)
+        {
+            // Create/Open e1Out.txt
+            std::ofstream file("e1Out.txt");
+
+            // Go through each loaded mesh and out its contents
+            for (int i = 0; i < Loader.LoadedMeshes.size(); i++)
+            {
+                // Copy one of the loaded meshes to be our current mesh
+                objl::Mesh curMesh = Loader.LoadedMeshes[i];
+
+                // Print Mesh Name
+                file << "Mesh " << i << ": " << curMesh.MeshName << "\n";
+
+                // Print Vertices
+                file << "Vertices:\n";
+
+                // Go through each vertex and print its number,
+                //  position, normal, and texture coordinate
+
+                //Have to add mesh using triangular face descriptor
+
+                std::map<int, vertex_descriptor> vertex_map;
+
+                for (int i = 0; i < curMesh.Vertices.size(); i++) {
+                    vertex_descriptor v = m.add_vertex(K::Point_3(curMesh.Vertices[i].Position.X,
+                                                                  curMesh.Vertices[i].Position.Y,
+                                                                  curMesh.Vertices[i].Position.Z));
+                    vertex_map[i] = v;
+                }
+
+                // Now, add faces using the indices
+                for (int j = 0; j < curMesh.Indices.size(); j += 3) {
+                    vertex_descriptor v0 = vertex_map[curMesh.Indices[j]];
+                    vertex_descriptor v1 = vertex_map[curMesh.Indices[j + 1]];
+                    vertex_descriptor v2 = vertex_map[curMesh.Indices[j + 2]];
+
+                    m.add_face(v0, v1, v2);
+                }
+
+                for (int j = 0; j < curMesh.Vertices.size(); j++)
+                {
+
+                   // m.add_vertex(K::Point_3(curMesh.Vertices[j].Position.X , curMesh.Vertices[j].Position.Y,curMesh.Vertices[j].Position.Z));
+
+                    std::cout << "V" << j << ": " <<
+                         "P(" << curMesh.Vertices[j].Position.X << ", " << curMesh.Vertices[j].Position.Y << ", " << curMesh.Vertices[j].Position.Z << ") " <<
+                         "N(" << curMesh.Vertices[j].Normal.X << ", " << curMesh.Vertices[j].Normal.Y << ", " << curMesh.Vertices[j].Normal.Z << ") " <<
+                         "TC(" << curMesh.Vertices[j].TextureCoordinate.X << ", " << curMesh.Vertices[j].TextureCoordinate.Y << ")\n";
+                }
+
+                // Print Indices
+                file << "Indices:\n";
+
+                // Go through every 3rd index and print the
+                //	triangle that these indices represent
+                for (int j = 0; j < curMesh.Indices.size(); j += 3)
+                {
+                   // vertex_descriptor v0 = m.add_vertex(K::Point_3(curMesh.Vertices[j].Position.X , curMesh.Vertices[j].Position.Y,curMesh.Vertices[j].Position.Z));
+                   // vertex_descriptor v1 = m.add_vertex(K::Point_3(curMesh.Vertices[j+1].Position.X , curMesh.Vertices[j+1].Position.Y,curMesh.Vertices[j+1].Position.Z));
+                  //  vertex_descriptor v2 = m.add_vertex(K::Point_3(curMesh.Vertices[j+2].Position.X , curMesh.Vertices[j+2].Position.Y,curMesh.Vertices[j+2].Position.Z));
+
+
+                }
+
+                CGAL::convex_hull_3(m.points().begin(), m.points().end(), ch);
+
+                // Print Material
+                file << "Material: " << curMesh.MeshMaterial.name << "\n";
+                file << "Ambient Color: " << curMesh.MeshMaterial.Ka.X << ", " << curMesh.MeshMaterial.Ka.Y << ", " << curMesh.MeshMaterial.Ka.Z << "\n";
+                file << "Diffuse Color: " << curMesh.MeshMaterial.Kd.X << ", " << curMesh.MeshMaterial.Kd.Y << ", " << curMesh.MeshMaterial.Kd.Z << "\n";
+                file << "Specular Color: " << curMesh.MeshMaterial.Ks.X << ", " << curMesh.MeshMaterial.Ks.Y << ", " << curMesh.MeshMaterial.Ks.Z << "\n";
+                file << "Specular Exponent: " << curMesh.MeshMaterial.Ns << "\n";
+                file << "Optical Density: " << curMesh.MeshMaterial.Ni << "\n";
+                file << "Dissolve: " << curMesh.MeshMaterial.d << "\n";
+                file << "Illumination: " << curMesh.MeshMaterial.illum << "\n";
+                file << "Ambient Texture Map: " << curMesh.MeshMaterial.map_Ka << "\n";
+                file << "Diffuse Texture Map: " << curMesh.MeshMaterial.map_Kd << "\n";
+                file << "Specular Texture Map: " << curMesh.MeshMaterial.map_Ks << "\n";
+                file << "Alpha Texture Map: " << curMesh.MeshMaterial.map_d << "\n";
+                file << "Bump Map: " << curMesh.MeshMaterial.map_bump << "\n";
+
+                // Leave a space to separate from the next mesh
+                file << "\n";
             }
 
-            file.ignore(2); // Skipping the attribute byte count
+            // Close File
+            file.close();
+        }
+            // If not output an error
+        else
+        {
+            // Create/Open e1Out.txt
+            std::ofstream file("e1Out.txt");
 
-            std::vector<Mesh::Vertex_index> face_vertices;
-            for (int j = 0; j < 3; ++j) {
-                face_vertices.push_back(mesh.add_vertex(Point(vertex[j][0], vertex[j][1], vertex[j][2])));
-            }
-            mesh.add_face(face_vertices);
+            // Output Error
+            file << "Failed to Load File. May have failed to find it or it was not an .obj file.\n";
+
+            // Close File
+            file.close();
         }
 
-        std::cout << "Opened file as OBJ format" << std::endl;
 
-        if (file.fail()) {
-            std::cerr << "Error reading file " << filePath << std::endl;
-        }
+        /** Testing **/
 
-        file.close();
     } else {
         std::cerr << "Unsupported file format." << std::endl;
     }
 }
+
+const MeshLoad::Mesh &MeshLoad::getMesh() const {
+    return m;
+}
+

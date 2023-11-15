@@ -16,7 +16,7 @@ find_package(CGAL CONFIG REQUIRED)
 
 add_executable(SculptPath src/main.cpp
         src/mesh_loader/MeshLoad.cpp
-        src/mesh_loader/MeshLoad.h)
+        src/mesh_loader/MeshLoad.h src/mesh_loader/OBJ_Loader.h src/non_planar/Slicer.cpp src/non_planar/Slicer.h src/non_planar/Slicer.h)
 
 target_include_directories(SculptPath PRIVATE include)
 

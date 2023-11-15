@@ -1,15 +1,16 @@
 #include <iostream>
 
 #include "mesh_loader/MeshLoad.h"
+#include "non_planar/Slicer.h"
 
 int main() {
 
     std::cout << "Hello, World!" << std::endl;
 
-    std::string filePath = "C:\\Code\\SculptPath\\assets\\test_mp_2.stl";
+    std::string filePath = R"(C:\Code\SculptPath\assets\test_mp_2.obj)";
 
-    MeshLoad load(filePath);
-    load.loadMesh();
+    Slicer slicer;
+    slicer.sliceFile(filePath);
 
 
     return 0;
