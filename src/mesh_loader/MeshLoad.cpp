@@ -36,7 +36,6 @@ FileType MeshLoad::getMeshFormat(bool check) {
         return OBJ;
     }
 
-    //TODO write code for checking if each format is correctly structured
 
 }
 

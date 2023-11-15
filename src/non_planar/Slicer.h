@@ -6,6 +6,7 @@
 #include <CGAL/AABB_tree.h>
 #include <CGAL/AABB_traits.h>
 #include <CGAL/AABB_face_graph_triangle_primitive.h>
+#include "Settings.h"
 
 #ifndef SCULPTPATH_SLICER_H
 #define SCULPTPATH_SLICER_H
@@ -27,7 +28,7 @@ public:
     typedef CGAL::AABB_tree<AABB_mesh_traits> Tree;
 
 
-    void sliceFile(std::string filePath);
+    void sliceFile(std::string filePath, Settings settings);
 
 
 };

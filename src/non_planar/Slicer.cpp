@@ -17,7 +17,7 @@ typedef CGAL::AABB_traits<Kernel, Primitive> AABB_mesh_traits;
 typedef CGAL::AABB_tree<AABB_mesh_traits> Tree;
 
 //Test Slice function
-void Slicer::sliceFile(std::string filePath) {
+void Slicer::sliceFile(std::string filePath, Settings settings) {
 
     MeshLoad load(filePath);
     load.loadMesh();
@@ -33,8 +33,6 @@ void Slicer::sliceFile(std::string filePath) {
     double y_max = bbox.ymax();
     double z_max = bbox.zmax();
 
-    //TODO create slicer config system
-
     double grid_resolution = 0.5; // Distance between grid points
     double grid_height = 10.0; // Height of the grid above the mesh
 
@@ -44,7 +42,6 @@ void Slicer::sliceFile(std::string filePath) {
             grid_points.push_back(Point_3(x, y, z_max + grid_height));
         }
     }
-
 
     Tree tree(faces(mesh).first, faces(mesh).second, mesh);
 
@@ -61,7 +58,4 @@ void Slicer::sliceFile(std::string filePath) {
             }
         }
     }
-
-
-
 }

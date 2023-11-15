@@ -19,17 +19,12 @@
 enum FileType {STL, OBJ};
 class MeshLoad {
 
-
     typedef CGAL::Simple_cartesian<double> K;
     typedef CGAL::Surface_mesh<K::Point_3> Mesh;
     typedef Mesh::Vertex_index vertex_descriptor;
     typedef Mesh::Face_index face_descriptor;
 
-
-
     std::string filePath;
-
-
 
 public:
 
@@ -47,7 +42,7 @@ public:
     Mesh ch;
     void loadMesh();
 
-    const Mesh &getMesh() const;
+    [[nodiscard]] const Mesh &getMesh() const;
 
 private:
 
