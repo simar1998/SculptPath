@@ -10,7 +10,8 @@ int main() {
     std::string filePath = R"(C:\Code\SculptPath\assets\test_mp_2.obj)";
 
     Slicer slicer;
-    slicer.sliceFile(filePath);
+    Settings settings;
+    slicer.sliceFile(filePath, settings);
 
 
     return 0;

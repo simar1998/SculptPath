@@ -213,3 +213,49 @@ const MeshLoad::Mesh &MeshLoad::getMesh() const {
     return m;
 }
 
+std::vector<double> MeshLoad::getMeshBounding() {
+
+    std::vector<double> boundingVals;
+
+    if (mesh.is_empty()){
+        std::cerr << "Mesh i;s empty please load mesh before" << std::endl;
+    }
+
+    CGAL::Bbox_3 bbox = CGAL::bbox_3(mesh.points().begin(), mesh.points().end());
+
+    boundingVals.push_back(bbox.xmin());
+    boundingVals.push_back(bbox.ymin());
+    boundingVals.push_back(bbox.zmin());
+    boundingVals.push_back(bbox.xmax());
+    boundingVals.push_back(bbox.ymax());
+    boundingVals.push_back(bbox.zmax());
+
+    x_min = bbox.xmin();
+    x_max = bbox.xmax();
+    y_min = bbox.ymin();
+    y_max = bbox.ymax();
+    z_max = bbox.zmax();
+
+    return boundingVals;
+}
+
+double MeshLoad::getXMin() const {
+    return x_min;
+}
+
+double MeshLoad::getXMax() const {
+    return x_max;
+}
+
+double MeshLoad::getYMin() const {
+    return y_min;
+}
+
+double MeshLoad::getYMax() const {
+    return y_max;
+}
+
+double MeshLoad::getZMax() const {
+    return z_max;
+}
+

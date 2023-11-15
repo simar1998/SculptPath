@@ -42,12 +42,32 @@ public:
     Mesh ch;
     void loadMesh();
 
+    double x_min;
+    double x_max;
+    double y_min;
+    double y_max;
+    double z_max;
+
     [[nodiscard]] const Mesh &getMesh() const;
+
+    std::vector<double> getMeshBounding();
+
+    double getXMin() const;
+
+    double getXMax() const;
+
+    double getYMin() const;
+
+    double getYMax() const;
+
+    double getZMax() const;
 
 private:
 
     Mesh mesh;  // Declare the mesh variable
     FileType getMeshFormat(bool check);
+
+
 
 
 };
