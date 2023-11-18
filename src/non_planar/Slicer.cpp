@@ -6,6 +6,7 @@
 #include "../mesh_loader/MeshLoad.h"
 #include <boost/optional.hpp>
 #include <boost/variant.hpp>
+#include "MeshBoolean.h"
 
 
 typedef CGAL::Simple_cartesian<double> Kernel;
@@ -19,9 +20,21 @@ typedef CGAL::AABB_tree<AABB_mesh_traits> Tree;
 //Test Slice function
 void Slicer::sliceFile(std::string filePath, Settings settings) {
 
-    MeshLoad load(filePath);
+    std::string filePath1 = R"(C:\Code\SculptPath\assets\ball.obj)";
+    MeshLoad load(filePath1);
     load.loadMesh();
-    Mesh mesh = load.getMesh();//Gets the mesh to start ray intersection Test
+    Mesh mesh1 = load.getMesh();//Gets the mesh to start ray intersection Test
+    std::string filePath2 = R"(C:\Code\SculptPath\assets\cube.obj)";
+    MeshLoad load2(filePath2);
+    load2.loadMesh();
+    Mesh mesh2 = load.getMesh();
+
+    MeshBoolean meshBool(mesh1,mesh2);
+
+    meshBool.meshUnion(mesh1, mesh2);
+
+
+
 
 
 }

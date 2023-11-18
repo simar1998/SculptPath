@@ -12,7 +12,7 @@
  * Standard constructor that sets up the file path for mesh
  * @param filePath
  */
-MeshLoad::MeshLoad(std::string& filePath) {
+MeshLoad::MeshLoad(std::string filePath) {
     MeshLoad::filePath = filePath;
 }
 
@@ -35,10 +35,14 @@ FileType MeshLoad::getMeshFormat(bool check) {
     } else if (std::equal(extension.begin(), extension.end(),"obj")){
         return OBJ;
     }
-
+    else{
+        std::cerr << "Error processing file extension" << extension;
+    }
+    return OBJ;
 
 }
 
+//TODO remove the write to file debug thingamajig
 /**
  * Loads the mesh into CGAL's standard polygon mesh stuff based on type
  */
@@ -102,7 +106,7 @@ void MeshLoad::loadMesh() {
         if (loadout)
         {
             // Create/Open e1Out.txt
-            std::ofstream file("e1Out.txt");
+
 
             // Go through each loaded mesh and out its contents
             for (int i = 0; i < Loader.LoadedMeshes.size(); i++)
@@ -111,12 +115,12 @@ void MeshLoad::loadMesh() {
                 objl::Mesh curMesh = Loader.LoadedMeshes[i];
 
                 // Print Mesh Name
-                file << "Mesh " << i << ": " << curMesh.MeshName << "\n";
+                std::cout << "Mesh " << i << ": " << curMesh.MeshName << "\n";
 
                 // Print Vertices
-                file << "Vertices:\n";
+                std::cout << "Vertices:\n";
 
-                // Go through each vertex and print its number,
+                // Go through each vertex and print it's number,
                 //  position, normal, and texture coordinate
 
                 //Have to add mesh using triangular face descriptor
@@ -151,7 +155,7 @@ void MeshLoad::loadMesh() {
                 }
 
                 // Print Indices
-                file << "Indices:\n";
+                std::cout  << "Indices:\n";
 
                 // Go through every 3rd index and print the
                 //	triangle that these indices represent
@@ -167,26 +171,26 @@ void MeshLoad::loadMesh() {
                 CGAL::convex_hull_3(m.points().begin(), m.points().end(), ch);
 
                 // Print Material
-                file << "Material: " << curMesh.MeshMaterial.name << "\n";
-                file << "Ambient Color: " << curMesh.MeshMaterial.Ka.X << ", " << curMesh.MeshMaterial.Ka.Y << ", " << curMesh.MeshMaterial.Ka.Z << "\n";
-                file << "Diffuse Color: " << curMesh.MeshMaterial.Kd.X << ", " << curMesh.MeshMaterial.Kd.Y << ", " << curMesh.MeshMaterial.Kd.Z << "\n";
-                file << "Specular Color: " << curMesh.MeshMaterial.Ks.X << ", " << curMesh.MeshMaterial.Ks.Y << ", " << curMesh.MeshMaterial.Ks.Z << "\n";
-                file << "Specular Exponent: " << curMesh.MeshMaterial.Ns << "\n";
-                file << "Optical Density: " << curMesh.MeshMaterial.Ni << "\n";
-                file << "Dissolve: " << curMesh.MeshMaterial.d << "\n";
-                file << "Illumination: " << curMesh.MeshMaterial.illum << "\n";
-                file << "Ambient Texture Map: " << curMesh.MeshMaterial.map_Ka << "\n";
-                file << "Diffuse Texture Map: " << curMesh.MeshMaterial.map_Kd << "\n";
-                file << "Specular Texture Map: " << curMesh.MeshMaterial.map_Ks << "\n";
-                file << "Alpha Texture Map: " << curMesh.MeshMaterial.map_d << "\n";
-                file << "Bump Map: " << curMesh.MeshMaterial.map_bump << "\n";
+                std::cout  << "Material: " << curMesh.MeshMaterial.name << "\n";
+                std::cout  << "Ambient Color: " << curMesh.MeshMaterial.Ka.X << ", " << curMesh.MeshMaterial.Ka.Y << ", " << curMesh.MeshMaterial.Ka.Z << "\n";
+                std::cout  << "Diffuse Color: " << curMesh.MeshMaterial.Kd.X << ", " << curMesh.MeshMaterial.Kd.Y << ", " << curMesh.MeshMaterial.Kd.Z << "\n";
+                std::cout  << "Specular Color: " << curMesh.MeshMaterial.Ks.X << ", " << curMesh.MeshMaterial.Ks.Y << ", " << curMesh.MeshMaterial.Ks.Z << "\n";
+                std::cout  << "Specular Exponent: " << curMesh.MeshMaterial.Ns << "\n";
+                std::cout  << "Optical Density: " << curMesh.MeshMaterial.Ni << "\n";
+                std::cout  << "Dissolve: " << curMesh.MeshMaterial.d << "\n";
+                std::cout  << "Illumination: " << curMesh.MeshMaterial.illum << "\n";
+                std::cout  << "Ambient Texture Map: " << curMesh.MeshMaterial.map_Ka << "\n";
+                std::cout  << "Diffuse Texture Map: " << curMesh.MeshMaterial.map_Kd << "\n";
+                std::cout  << "Specular Texture Map: " << curMesh.MeshMaterial.map_Ks << "\n";
+                std::cout  << "Alpha Texture Map: " << curMesh.MeshMaterial.map_d << "\n";
+                std::cout  << "Bump Map: " << curMesh.MeshMaterial.map_bump << "\n";
 
                 // Leave a space to separate from the next mesh
-                file << "\n";
+                std::cout  << "\n";
             }
 
             // Close File
-            file.close();
+            //file.close();
         }
             // If not output an error
         else

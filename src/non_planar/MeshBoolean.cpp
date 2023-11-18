@@ -35,11 +35,21 @@ MeshBoolean::Mesh MeshBoolean::meshUnion(const MeshBoolean::Mesh &mesh1, const M
 
     // Perform the union operation
     bool valid_union = corefine_and_compute_union(triangulated1, triangulated2, out);
+
+    std::cout << "Union validity" << valid_union << std::endl;
+
     if (valid_union) {
         std::cout << "Union was successfully computed\n";
-        CGAL::IO::write_polygon_mesh("union.off", out, CGAL::parameters::stream_precision(17));
+        bool write_success = CGAL::IO::write_polygon_mesh("union.off", out, CGAL::parameters::stream_precision(17));
+        if (write_success) {
+            std::cout << "File 'union.off' written successfully.\n";
+        } else {
+            std::cerr << "Failed to write file 'union.off'.\n";
+        }
         return out; // Return the union mesh
     }
+
+
 
     // In case of failure, return an empty mesh or handle appropriately
     Mesh empty_mesh;

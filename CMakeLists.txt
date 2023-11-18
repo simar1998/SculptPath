@@ -2,8 +2,8 @@ cmake_minimum_required(VERSION 3.25)
 project(SculptPath)
 
 set(CMAKE_CXX_STANDARD 20)
-
-
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wa,-mbig-obj")
+set(CMAKE_BUILD_TYPE Release)
 
 include_directories(
         include/Eigen
