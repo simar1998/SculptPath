@@ -29,6 +29,8 @@ public:
             : filePath1(std::move(str1)), filePath2(std::move(str2)) {}
 
     Mesh meshUnion();
+    Mesh meshIntersection();
+    Mesh meshDifference();
 
 };
 
