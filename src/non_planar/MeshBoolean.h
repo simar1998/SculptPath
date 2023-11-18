@@ -15,10 +15,13 @@ public:
     typedef CGAL::Simple_cartesian<double> K;
     typedef CGAL::Surface_mesh<K::Point_3> Mesh;
 
+    Mesh m1;
+    Mesh m2;
+
+    MeshBoolean(Mesh m1, Mesh m2);
+
     static Mesh meshUnion(const Mesh& mesh1, const Mesh& mesh2);
-    static Mesh meshIntersection(const Mesh& mesh1, const Mesh& mesh2);
-    static Mesh meshDifference(const Mesh& mesh1, const Mesh& mesh2);
-    static Mesh meshSymmetricDifference(const Mesh& mesh1, const Mesh& mesh2);
+
 };
 
 

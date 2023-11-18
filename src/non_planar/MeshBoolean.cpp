@@ -3,33 +3,45 @@
 //
 
 #include "MeshBoolean.h"
-#include <CGAL/Polygon_mesh_processing/boolean_operations.h>
+
+#include <CGAL/Exact_predicates_inexact_constructions_kernel.h>
+#include <CGAL/Surface_mesh.h>
+#include <CGAL/Polygon_mesh_processing/corefinement.h>
+#include <CGAL/Polygon_mesh_processing/IO/polygon_mesh_io.h>
+#include <CGAL/Polygon_mesh_processing/triangulate_faces.h>
 
 using namespace CGAL::Polygon_mesh_processing;
-typedef CGAL::Exact_predicates_inexact_constructions_kernel K;
-typedef CGAL::Surface_mesh<K::Point_3> Mesh;
-namespace PMP = CGAL::Polygon_mesh_processing;
+/**
+ * Contructor for multiple mesh
+ * @param m1
+ * @param m2
+ */
 
-Mesh MeshBoolean::meshUnion(const Mesh& mesh1, const Mesh& mesh2) {
-    Mesh result;
-    corefine_and_compute_union(mesh1, mesh2, result);
-    return result;
+MeshBoolean::MeshBoolean(MeshBoolean::Mesh m1, MeshBoolean::Mesh m2) {
+    this -> m1 = m1;
+    this -> m2 = m2;
 }
 
-Mesh MeshBoolean::meshIntersection(const Mesh& mesh1, const Mesh& mesh2) {
-    Mesh result;
-    corefine_and_compute_intersection(mesh1, mesh2, result);
-    return result;
-}
+MeshBoolean::Mesh MeshBoolean::meshUnion(const MeshBoolean::Mesh &mesh1, const MeshBoolean::Mesh &mesh2) {
+    Mesh out;
 
-Mesh MeshBoolean::meshDifference(const Mesh& mesh1, const Mesh& mesh2) {
-    Mesh result;
-    corefine_and_compute_difference(mesh1, mesh2, result);
-    return result;
-}
+    // Copy input meshes
+    Mesh triangulated1 = mesh1;
+    Mesh triangulated2 = mesh2;
 
-Mesh MeshBoolean::meshSymmetricDifference(const Mesh& mesh1, const Mesh& mesh2) {
-    Mesh result;
-    corefine_and_compute_symmetric_difference(mesh1, mesh2, result);
-    return result;
+    // Triangulate both meshes
+    triangulate_faces(triangulated1);
+    triangulate_faces(triangulated2);
+
+    // Perform the union operation
+    bool valid_union = corefine_and_compute_union(triangulated1, triangulated2, out);
+    if (valid_union) {
+        std::cout << "Union was successfully computed\n";
+        CGAL::IO::write_polygon_mesh("union.off", out, CGAL::parameters::stream_precision(17));
+        return out; // Return the union mesh
+    }
+
+    // In case of failure, return an empty mesh or handle appropriately
+    Mesh empty_mesh;
+    return empty_mesh;
 }
