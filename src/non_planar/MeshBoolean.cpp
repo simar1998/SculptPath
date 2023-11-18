@@ -9,32 +9,34 @@
 #include <CGAL/Polygon_mesh_processing/corefinement.h>
 #include <CGAL/Polygon_mesh_processing/IO/polygon_mesh_io.h>
 #include <CGAL/Polygon_mesh_processing/triangulate_faces.h>
+#include "CGAL/IO/OBJ.h"
 
 using namespace CGAL::Polygon_mesh_processing;
+
 /**
- * Contructor for multiple mesh
- * @param m1
- * @param m2
+ * Mesh boolean union function
+ * @return
  */
-
-MeshBoolean::MeshBoolean(MeshBoolean::Mesh m1, MeshBoolean::Mesh m2) {
-    this -> m1 = m1;
-    this -> m2 = m2;
-}
-
-MeshBoolean::Mesh MeshBoolean::meshUnion(const MeshBoolean::Mesh &mesh1, const MeshBoolean::Mesh &mesh2) {
+MeshBoolean::Mesh MeshBoolean::meshUnion() {
     Mesh out;
 
     // Copy input meshes
-    Mesh triangulated1 = mesh1;
-    Mesh triangulated2 = mesh2;
+    Mesh m1;
+    Mesh m2;
 
+    if (!CGAL::IO::read_OBJ(filePath1, m1)) {
+        std::cerr << "Failed to load mesh from " << filePath1 << std::endl;
+    }
+
+    if (!CGAL::IO::read_OBJ(filePath2, m2)) {
+        std::cerr << "Failed to load mesh from " << filePath2 << std::endl;
+    }
     // Triangulate both meshes
-    triangulate_faces(triangulated1);
-    triangulate_faces(triangulated2);
+    triangulate_faces(m1);
+    triangulate_faces(m2);
 
     // Perform the union operation
-    bool valid_union = corefine_and_compute_union(triangulated1, triangulated2, out);
+    bool valid_union = corefine_and_compute_union(m1, m2, out);
 
     std::cout << "Union validity" << valid_union << std::endl;
 

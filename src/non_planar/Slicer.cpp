@@ -20,7 +20,7 @@ typedef CGAL::AABB_tree<AABB_mesh_traits> Tree;
 //Test Slice function
 void Slicer::sliceFile(std::string filePath, Settings settings) {
 
-    std::string filePath1 = R"(C:\Code\SculptPath\assets\ball.obj)";
+    std::string filePath1 = R"(C:\Code\SculptPath\assets\Body1.obj)";
     MeshLoad load(filePath1);
     load.loadMesh();
     Mesh mesh1 = load.getMesh();//Gets the mesh to start ray intersection Test
@@ -29,9 +29,9 @@ void Slicer::sliceFile(std::string filePath, Settings settings) {
     load2.loadMesh();
     Mesh mesh2 = load.getMesh();
 
-    MeshBoolean meshBool(mesh1,mesh2);
+    MeshBoolean meshBool(filePath1,filePath2);
 
-    meshBool.meshUnion(mesh1, mesh2);
+    meshBool.meshUnion();
 
 
 

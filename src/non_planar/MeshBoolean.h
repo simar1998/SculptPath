@@ -11,6 +11,12 @@
 
 
 class MeshBoolean {
+
+private:
+
+    std::string filePath1;
+    std::string filePath2;
+
 public:
     typedef CGAL::Simple_cartesian<double> K;
     typedef CGAL::Surface_mesh<K::Point_3> Mesh;
@@ -18,9 +24,11 @@ public:
     Mesh m1;
     Mesh m2;
 
-    MeshBoolean(Mesh m1, Mesh m2);
 
-    static Mesh meshUnion(const Mesh& mesh1, const Mesh& mesh2);
+    MeshBoolean(std::string str1, std::string str2)
+            : filePath1(std::move(str1)), filePath2(std::move(str2)) {}
+
+    Mesh meshUnion();
 
 };
 

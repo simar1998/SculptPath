@@ -4,12 +4,13 @@
 
 #include "Intersect.h"
 
-Intersect::Intersect(MeshLoad m, MeshLoad meshLoad) : meshLoad(meshLoad) {
-    meshLoad = m;
-}
 
 //Creates plane at zOffset from top of mesh and generates a grid from which rays are generated pointing down
 std::vector<Intersect::Point_3> Intersect::gridIntersect(double zOffset, double gridRes) {
+
+    MeshLoad meshLoad(filePath);
+    Mesh mesh = meshLoad.getMesh();
+
     std::vector<Point_3> intersect_points;
     std::vector<Point_3> grid_points;
     for (double x = meshLoad.x_min; x <= meshLoad.x_max; x += gridRes) {
@@ -41,6 +42,9 @@ std::vector<Intersect::Point_3> Intersect::gridIntersect(double zOffset, double 
 std::vector<Intersect::Point_3> Intersect::rayIntersect(Intersect::Ray_3 ray, IntersectType type) {
     std::vector<Point_3> intersection_points;
 
+    MeshLoad meshLoad(filePath);
+    Mesh mesh = meshLoad.getMesh();
+
     Tree tree(faces(mesh).first, faces(mesh).second, mesh);
 
     if (type == one_point) {
@@ -60,5 +64,6 @@ std::vector<Intersect::Point_3> Intersect::rayIntersect(Intersect::Ray_3 ray, In
     }
     return intersection_points;
 }
+
 
 

@@ -15,6 +15,8 @@
 enum IntersectType {one_point, two_point};
 class Intersect {
 
+private:
+    std::string filePath;
 
 public :
 
@@ -27,10 +29,7 @@ public :
     typedef CGAL::AABB_traits<Kernel, Primitive> AABB_mesh_traits;
     typedef CGAL::AABB_tree<AABB_mesh_traits> Tree;
 
-    Mesh mesh;
-    MeshLoad meshLoad;
-
-    explicit Intersect(MeshLoad m, MeshLoad meshLoad);
+    Intersect(std::string str) : filePath(std::move(str)){};
 
     std::vector<Point_3> gridIntersect(double zOffset, double gridRes);
 
