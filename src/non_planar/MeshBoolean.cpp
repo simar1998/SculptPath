@@ -77,10 +77,10 @@ MeshBoolean::Mesh MeshBoolean::meshDifference() {
     bool valid_difference = corefine_and_compute_difference(m1, m2, out);
 
 
-    std::cout << "Union validity" << valid_union << std::endl;
+    std::cout << "Difference validity" << valid_difference << std::endl;
 
-    if (valid_union) {
-        std::cout << "Union was successfully computed\n";
+    if (valid_difference) {
+        std::cout << "Mesh Difference was successfully computed\n";
         bool write_success = CGAL::IO::write_polygon_mesh("union.off", out, CGAL::parameters::stream_precision(17));
         if (write_success) {
             std::cout << "File 'union.off' written successfully.\n";
@@ -119,10 +119,10 @@ MeshBoolean::Mesh MeshBoolean::meshIntersection() {
 
     bool valid_intersection = corefine_and_compute_intersection(m1, m2, out);
 
-    std::cout << "Union validity" << valid_union << std::endl;
+    std::cout << "Intersection validity" << valid_intersection << std::endl;
 
-    if (valid_union) {
-        std::cout << "Union was successfully computed\n";
+    if (valid_intersection) {
+        std::cout << "Intersection was successfully computed\n";
         bool write_success = CGAL::IO::write_polygon_mesh("union.off", out, CGAL::parameters::stream_precision(17));
         if (write_success) {
             std::cout << "File 'union.off' written successfully.\n";
