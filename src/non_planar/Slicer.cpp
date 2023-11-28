@@ -7,6 +7,7 @@
 #include <boost/optional.hpp>
 #include <boost/variant.hpp>
 #include "MeshBoolean.h"
+#include "volume_navigation/MeshTriangulation.h"
 
 
 typedef CGAL::Simple_cartesian<double> Kernel;
@@ -20,6 +21,7 @@ typedef CGAL::AABB_tree<AABB_mesh_traits> Tree;
 //Test Slice function
 void Slicer::sliceFile(std::string filePath, Settings settings) {
 
+    /**
     std::string filePath1 = R"(C:\Code\SculptPath\assets\Body1.obj)";
     MeshLoad load(filePath1);
     load.loadMesh();
@@ -32,7 +34,11 @@ void Slicer::sliceFile(std::string filePath, Settings settings) {
     MeshBoolean meshBool(filePath1,filePath2);
 
     meshBool.meshUnion();
+**/
 
+    std::string objFilePath = "C:\\Code\\SculptPath\\assets\\Body1.obj";
+    MeshTriangulation triangulator(objFilePath);
+    triangulator.iterateVolume();
 
 
 

@@ -20,7 +20,7 @@ add_executable(SculptPath src/main.cpp
         src/non_planar/Slicer.h src/non_planar/Settings.cpp src/non_planar/Settings.h src/non_planar/Settings.h
         src/non_planar/fileWriter/ThreadThreadSafeFileWriter.cpp src/non_planar/fileWriter/ThreadThreadSafeFileWriter.h
         src/non_planar/fileWriter/ThreadThreadSafeFileWriter.h src/non_planar/Intersect.cpp src/non_planar/Intersect.h
-        src/non_planar/Intersect.h src/non_planar/MeshBoolean.cpp src/non_planar/MeshBoolean.h src/non_planar/MeshBoolean.h src/non_planar/MeshGenerator.cpp src/non_planar/MeshGenerator.h src/non_planar/MeshGenerator.h src/non_planar/PointPopulater.cpp src/non_planar/PointPopulater.h src/non_planar/PointPopulater.h)
+        src/non_planar/Intersect.h src/non_planar/MeshBoolean.cpp src/non_planar/MeshBoolean.h src/non_planar/MeshBoolean.h src/non_planar/MeshGenerator.cpp src/non_planar/MeshGenerator.h src/non_planar/MeshGenerator.h src/non_planar/PointPopulater.cpp src/non_planar/PointPopulater.h src/non_planar/PointPopulater.h src/non_planar/volume_navigation/MeshTriangulation.cpp src/non_planar/volume_navigation/MeshTriangulation.h)
 
 target_include_directories(SculptPath PRIVATE include)
 

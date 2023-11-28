@@ -28,6 +28,4 @@ private:
     Point_3 generatePoint(const Polyhedron& mesh);
 };
 
-
-
 #endif //SCULPTPATH_POINTPOPULATER_H
