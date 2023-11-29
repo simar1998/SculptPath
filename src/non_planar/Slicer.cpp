@@ -8,9 +8,10 @@
 #include <boost/variant.hpp>
 #include "MeshBoolean.h"
 #include "volume_navigation/MeshTriangulation.h"
+#include "volume_labeling/MeshLabeling.h"
 
 
-typedef CGAL::Simple_cartesian<double> Kernel;
+//typedef CGAL::Simple_cartesian<double> Kernel;
 typedef Kernel::Point_3 Point_3;
 typedef Kernel::Ray_3 Ray_3;
 typedef CGAL::Surface_mesh<Point_3> Mesh;
@@ -36,9 +37,13 @@ void Slicer::sliceFile(std::string filePath, Settings settings) {
     meshBool.meshUnion();
 **/
 
-    std::string objFilePath = "C:\\Code\\SculptPath\\assets\\Body1.obj";
-    MeshTriangulation triangulator(objFilePath);
-    triangulator.iterateVolume();
+    std::string objFilePath = "C:\\Code\\SculptPath\\assets\\test_mp_2.off";
+   // MeshTriangulation triangulator(objFilePath);
+    //triangulator.iterateVolume();
+
+    MeshLabeling label(objFilePath);
+    label.performSegmentation();
+
 
 
 
