@@ -8,7 +8,9 @@
 #include <boost/variant.hpp>
 #include "MeshBoolean.h"
 #include "volume_navigation/MeshTriangulation.h"
-#include "volume_labeling/MeshLabeling.h"
+//#include "volume_labeling/MeshLabeling.h"
+#include "volume_labeling/Segmentation.h"
+#include "surface_labeling/MeshSurfaceEstimation.h"
 
 
 //typedef CGAL::Simple_cartesian<double> Kernel;
@@ -41,11 +43,15 @@ void Slicer::sliceFile(std::string filePath, Settings settings) {
    // MeshTriangulation triangulator(objFilePath);
     //triangulator.iterateVolume();
 
-    MeshLabeling label(objFilePath);
-    label.performSegmentation();
+   // MeshLabeling label(objFilePath);
+   // label.performSegmentation();
+    //label.computeSDF();
 
+    //Segmentation segmentation(objFilePath);
+    //segmentation.performSegSDF();
 
+    MeshSurfaceEstimation surfaceEstimation(objFilePath);
 
-
+    surfaceEstimation.performEstimationPointCloud();
 
 }

@@ -19,7 +19,6 @@ typedef CGAL::Polyhedron_3<Kernel> Polyhedron;
 typedef boost::graph_traits<Polyhedron>::face_descriptor face_descriptor;
 
 class MeshLabeling {
-
     Polyhedron mesh;
 
 public:
@@ -27,8 +26,7 @@ public:
     void performSegmentation();
     void identifyNonPlanarSurfaces();
     void identifyCurves();
-
-
+    void computeSDF();
 
 private:
     std::string filePath;

@@ -10,7 +10,12 @@
 #include <CGAL/mesh_segmentation.h>
 #include <CGAL/property_map.h>
 #include <iostream>
+#include <CGAL/Exact_predicates_inexact_constructions_kernel.h>
+#include <CGAL/Surface_mesh.h>
 
+#include <CGAL/mesh_segmentation.h>
+#include <CGAL/Polygon_mesh_processing/IO/polygon_mesh_io.h>
+#include <CGAL/property_map.h>
 
 typedef CGAL::Exact_predicates_inexact_constructions_kernel Kernel;
 typedef CGAL::Polyhedron_3<Kernel> Polyhedron;
@@ -61,7 +66,7 @@ void MeshLabeling::performSegmentation() {
 
 //TODO make integrate diffrential plane detection
 void MeshLabeling::identifyNonPlanarSurfaces() {
-
+ //Will add segmenetation code here for test pursposes for no
 }
 
 void MeshLabeling::analyzeSurfacePatch() {
@@ -80,4 +85,10 @@ void MeshLabeling::detectEdges() {
 
 void MeshLabeling::detectRidges() {
     // Implement ridge detection
+}
+//Compute sdf values for the mesh here
+void MeshLabeling::computeSDF() {
+
+
+
 }
