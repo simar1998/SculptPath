@@ -29,6 +29,8 @@ public :
     typedef CGAL::AABB_traits<Kernel, Primitive> AABB_mesh_traits;
     typedef CGAL::AABB_tree<AABB_mesh_traits> Tree;
 
+    bool isPointInMesh(const Point_3& point);
+
     Intersect(std::string str) : filePath(std::move(str)){};
 
     std::vector<Point_3> gridIntersect(double zOffset, double gridRes);
@@ -36,6 +38,7 @@ public :
     //TODO create intersect return type
     std::vector<Point_3> rayIntersect(Ray_3 ray, IntersectType type);
 
+    std::vector<Intersect::Point_3> gridIntersectRefined(double zOffset, double gridRes, double refineRes);
 };
 
 

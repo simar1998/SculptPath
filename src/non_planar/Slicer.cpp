@@ -11,6 +11,8 @@
 //#include "volume_labeling/MeshLabeling.h"
 #include "volume_labeling/Segmentation.h"
 #include "surface_labeling/MeshSurfaceEstimation.h"
+#include "Intersect.h"
+#include "volume_iterator/VolumeIterator.h"
 
 
 //typedef CGAL::Simple_cartesian<double> Kernel;
@@ -39,7 +41,8 @@ void Slicer::sliceFile(std::string filePath, Settings settings) {
     meshBool.meshUnion();
 **/
 
-    std::string objFilePath = "C:\\Code\\SculptPath\\assets\\test_mp_2.off";
+    std::string offFilePath = "C:\\Code\\SculptPath\\assets\\test_mp_2.off";
+    std::string objFilePath = "C:\\Code\\SculptPath\\assets\\test_mp_2.obj";
    // MeshTriangulation triangulator(objFilePath);
     //triangulator.iterateVolume();
 
@@ -47,11 +50,18 @@ void Slicer::sliceFile(std::string filePath, Settings settings) {
    // label.performSegmentation();
     //label.computeSDF();
 
-    //Segmentation segmentation(objFilePath);
+    //Segmentation segmentation(offFilePath);
     //segmentation.performSegSDF();
 
-    MeshSurfaceEstimation surfaceEstimation(objFilePath);
+    //MeshSurfaceEstimation surfaceEstimation(offFilePath);
 
-    surfaceEstimation.performEstimationPointCloud();
+    //surfaceEstimation.performEstimationPointCloud();
+
+    //Intersect intersect(objFilePath);
+   // intersect.gridIntersect(10,0.5);
+    //intersect.gridIntersectRefined(10,0.1,0.005);
+
+    VolumeIterator iterator(objFilePath);
+    iterator.startIteratorOperations();
 
 }

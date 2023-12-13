@@ -146,7 +146,7 @@ void MeshLoad::loadMesh() {
                 for (int j = 0; j < curMesh.Vertices.size(); j++)
                 {
 
-                   // m.add_vertex(K::Point_3(curMesh.Vertices[j].Position.X , curMesh.Vertices[j].Position.Y,curMesh.Vertices[j].Position.Z));
+                   m.add_vertex(K::Point_3(curMesh.Vertices[j].Position.X , curMesh.Vertices[j].Position.Y,curMesh.Vertices[j].Position.Z));
 
                     std::cout << "V" << j << ": " <<
                          "P(" << curMesh.Vertices[j].Position.X << ", " << curMesh.Vertices[j].Position.Y << ", " << curMesh.Vertices[j].Position.Z << ") " <<
@@ -187,6 +187,8 @@ void MeshLoad::loadMesh() {
 
                 // Leave a space to separate from the next mesh
                 std::cout  << "\n";
+
+                MeshLoad::mesh = m;
             }
 
             // Close File
@@ -222,7 +224,7 @@ std::vector<double> MeshLoad::getMeshBounding() {
     std::vector<double> boundingVals;
 
     if (mesh.is_empty()){
-        std::cerr << "Mesh i;s empty please load mesh before" << std::endl;
+        std::cerr << "Mesh is empty please load mesh before" << std::endl;
     }
 
     CGAL::Bbox_3 bbox = CGAL::bbox_3(mesh.points().begin(), mesh.points().end());
