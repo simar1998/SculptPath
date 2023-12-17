@@ -57,8 +57,8 @@ void Slicer::sliceFile(std::string filePath, Settings settings) {
 
     //surfaceEstimation.performEstimationPointCloud();
 
-    //Intersect intersect(objFilePath);
-   // intersect.gridIntersect(10,0.5);
+   // Intersect intersect(objFilePath);
+    //intersect.gridIntersect(10,0.5);
     //intersect.gridIntersectRefined(10,0.1,0.005);
 
     VolumeIterator iterator(objFilePath);

@@ -29,7 +29,7 @@ public :
     typedef CGAL::AABB_traits<Kernel, Primitive> AABB_mesh_traits;
     typedef CGAL::AABB_tree<AABB_mesh_traits> Tree;
 
-    bool isPointInMesh(const Point_3& point);
+    bool isPointInMesh(const Point_3& point, Mesh &mesh);
 
     Intersect(std::string str) : filePath(std::move(str)){};
 

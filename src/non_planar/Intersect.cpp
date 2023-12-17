@@ -60,7 +60,9 @@ std::vector<Intersect::Point_3> Intersect::gridIntersect(double zOffset, double 
 std::vector<Intersect::Point_3> Intersect::gridIntersectRefined(double zOffset, double gridRes, double refineRes) {
 
     MeshLoad meshLoad(filePath);
+    meshLoad.loadMesh();
     Mesh mesh = meshLoad.getMesh();
+    meshLoad.getMeshBounding();
 
     if(meshLoad.getMesh().is_empty()){
         std::cerr << "Mesh Load Failed, nothing is loaded into the mesh" << std::endl;
@@ -92,6 +94,8 @@ std::vector<Intersect::Point_3> Intersect::gridIntersectRefined(double zOffset, 
         }
     }
 
+    std::cout << "No Hit points size : " << no_hit_points.size() << std::endl;
+
     // Adaptive refinement for rays that did not hit the mesh
     for (const MeshLoad::Point_3& no_hit_point : no_hit_points) {
         // Refine around the no-hit point within a specified smaller interval
@@ -112,6 +116,8 @@ std::vector<Intersect::Point_3> Intersect::gridIntersectRefined(double zOffset, 
     }
     return intersect_points;
 }
+
+
 //Performs ray intersect with mesh
 std::vector<Intersect::Point_3> Intersect::rayIntersect(Intersect::Ray_3 ray, IntersectType type) {
     std::vector<Point_3> intersection_points;
@@ -139,13 +145,13 @@ std::vector<Intersect::Point_3> Intersect::rayIntersect(Intersect::Ray_3 ray, In
     return intersection_points;
 }
 
-bool Intersect::isPointInMesh(const Point_3& point) {
-    MeshLoad meshLoad(filePath);
+bool Intersect::isPointInMesh(const Point_3& point, Mesh &mesh) {
+   /** MeshLoad meshLoad(filePath);
     meshLoad.loadMesh();
     Mesh mesh = meshLoad.getMesh();
-
+**/
     // Ensure the mesh is loaded
-    if (meshLoad.getMesh().is_empty()) {
+    if (mesh.is_empty()) {
         std::cerr << "Mesh Load Failed, nothing is loaded into the mesh" << std::endl;
         return false;
     }

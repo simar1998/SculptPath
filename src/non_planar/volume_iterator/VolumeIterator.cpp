@@ -35,7 +35,7 @@ std::string VolumeIterator::startIteratorOperations() {
         points = intersectPoints.gridIntersect(10,0.5);
         Intersect::Point_3 arbitraryPoint(0, 0, 0);
         // Call the isPointInMesh method with the arbitrary point
-        bool isInside = intersectPoints.isPointInMesh(arbitraryPoint);
+        bool isInside = intersectPoints.isPointInMesh(arbitraryPoint, mesh);
 
         // Output the result
         if (isInside) {

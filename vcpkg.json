@@ -6,5 +6,8 @@
     "name" : "cgal",
     "version>=" : "5.6",
     "$comment" : "    find_package(CGAL CONFIG REQUIRED)\n\n    target_link_libraries(main PRIVATE CGAL::CGAL)\n"
+  }, {
+    "name" : "pybind11",
+    "version>=" : "2.11.1"
   } ]
 }
