@@ -3,25 +3,9 @@
 //
 
 #include "Slicer.h"
-#include "../mesh_loader/MeshLoad.h"
 #include <boost/optional.hpp>
-#include <boost/variant.hpp>
-#include "MeshBoolean.h"
-#include "volume_navigation/MeshTriangulation.h"
-//#include "volume_labeling/MeshLabeling.h"
-#include "volume_labeling/Segmentation.h"
-#include "surface_labeling/MeshSurfaceEstimation.h"
 #include "Intersect.h"
 #include "volume_iterator/VolumeIterator.h"
-
-
-//typedef CGAL::Simple_cartesian<double> Kernel;
-typedef Kernel::Point_3 Point_3;
-typedef Kernel::Ray_3 Ray_3;
-typedef CGAL::Surface_mesh<Point_3> Mesh;
-typedef CGAL::AABB_face_graph_triangle_primitive<Mesh> Primitive;
-typedef CGAL::AABB_traits<Kernel, Primitive> AABB_mesh_traits;
-typedef CGAL::AABB_tree<AABB_mesh_traits> Tree;
 
 //Test Slice function
 void Slicer::sliceFile(std::string filePath, Settings settings) {
@@ -47,7 +31,7 @@ void Slicer::sliceFile(std::string filePath, Settings settings) {
     //triangulator.iterateVolume();
 
    // MeshLabeling label(objFilePath);
-   // label.performSegmentation();
+    //label.performSegmentation();
     //label.computeSDF();
 
     //Segmentation segmentation(offFilePath);
@@ -57,9 +41,9 @@ void Slicer::sliceFile(std::string filePath, Settings settings) {
 
     //surfaceEstimation.performEstimationPointCloud();
 
-   // Intersect intersect(objFilePath);
+    //Intersect intersect(objFilePath);
     //intersect.gridIntersect(10,0.5);
-    //intersect.gridIntersectRefined(10,0.1,0.005);
+   // intersect.gridIntersectRefined(10,0.1,0.005);
 
     VolumeIterator iterator(objFilePath);
     iterator.startIteratorOperations();

@@ -13,11 +13,17 @@
 #include <CGAL/AABB_face_graph_triangle_primitive.h>
 
 enum IntersectType {one_point, two_point};
+
+class MeshIntersectionResult{
+    typedef CGAL::Simple_cartesian<double> Kernel;
+    typedef Kernel::Ray_3 Ray_3;
+    typedef Kernel::Point_3 Point_3;
+
+    MeshIntersectionResult(Point_3  &point, Ray_3 &ray, std::vector<Point_3> meshIntersection);
+
+};
+
 class Intersect {
-
-private:
-    std::string filePath;
-
 public :
 
     typedef CGAL::Simple_cartesian<double> K;
@@ -39,7 +45,20 @@ public :
     std::vector<Point_3> rayIntersect(Ray_3 ray, IntersectType type);
 
     std::vector<Intersect::Point_3> gridIntersectRefined(double zOffset, double gridRes, double refineRes);
+
+    std::vector<Intersect::Point_3> planeIntersect(double zHeight);
+
+    std::vector<MeshIntersectionResult> globularIntersectionAtPoint(Point_3 point3, double globularDensity, MeshLoad meshLoad);
+
+private:
+    std::string filePath;
+
+    std::vector<Intersect::Ray_3> generateModifiedFibonacciPoints(int numberOfPoints, double scaleFactor, double offset, Intersect::Point_3 originPoint);
+
 };
+
+
+
 
 
 #endif //SCULPTPATH_INTERSECT_H

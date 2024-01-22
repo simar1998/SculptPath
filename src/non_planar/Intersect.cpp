@@ -11,6 +11,7 @@
 #include <CGAL/Side_of_triangle_mesh.h>
 #include <iostream>
 #include <fstream>
+#include "MeshException.h"
 
 //Creates plane at zOffset from top of mesh and generates a grid from which rays are generated pointing down
 std::vector<Intersect::Point_3> Intersect::gridIntersect(double zOffset, double gridRes) {
@@ -166,4 +167,88 @@ bool Intersect::isPointInMesh(const Point_3& point, Mesh &mesh) {
     return inside_tester(point) == CGAL::ON_BOUNDED_SIDE;
 }
 
+std::vector<Intersect::Point_3> Intersect::planeIntersect(double zHeight) {
+    std::vector<Intersect::Point_3> intersectPoint;
+
+
+
+    return std::vector<Intersect::Point_3>();
+}
+
+/**
+ * Added the globular mesh intersection at point class to create a globular ray burst at point and collect intersection results to return to caller. Presumes mesh is aolready loaded to
+ * avoid reloading the mesh
+ * @param originPoint
+ * @param globularDensity
+ * @param meshLoad
+ * @return
+ */
+std::vector<MeshIntersectionResult> Intersect::globularIntersectionAtPoint(Intersect::Point_3 originPoint, double globularDensity, MeshLoad meshLoad){
+
+    Mesh mesh = meshLoad.getMesh();
+    if (mesh.is_empty()) {
+        throw MeshException("Mesh Load Failed, nothing is loaded into the mesh");
+    }
+
+    std::cout <<"Globular Ray Intersect" << std::endl;
+
+    //Default number of points for globular ray cast is 100
+
+    int numPoints = 1000;
+    double scaleFactor = 1.5;
+    double offset = 0.0;
+
+    //Unsure if bad forcing method usage ?
+    std::vector<Intersect::Ray_3> globularRays = generateModifiedFibonacciPoints(numPoints,scaleFactor,offset,originPoint);
+
+    Tree tree(faces(mesh).first, faces(mesh).second, mesh);
+    std::ofstream outFile("intersection_points.txt");
+
+    outFile << "Origin: " << originPoint.x() << " " << originPoint.y() << " " << originPoint.z() << std::endl;
+
+    for (const auto& ray : globularRays) {
+        auto intersection = tree.first_intersection(ray);
+
+        if (intersection) {
+            if (const Point_3* p = boost::get<Point_3>(&intersection->first)) {
+                outFile << p->x() << " " << p->y() << " " << p->z() << std::endl;
+            }
+        }
+    }
+
+    outFile.close();
+
+
+    //Test Visualizer for showing data for analysis
+      system("python C:\\Code\\SculptPath\\src\\visualizer.py");
+
+
+    //Remove
+    return std::vector<MeshIntersectionResult>();
+}
+
+/**
+ * Generates fibonacci lattice at point for globular ray brust
+ * @param numberOfPoints
+ * @param scaleFactor
+ * @param offset
+ * @param originPoint
+ * @return
+ */
+std::vector<Intersect::Ray_3> Intersect::generateModifiedFibonacciPoints(int numberOfPoints, double scaleFactor, double offset, Intersect::Point_3 originPoint) {
+    std::vector<Intersect::Ray_3> rays;
+    double goldenRatio = (std::sqrt(5.0) + 1.0) / 2.0;
+
+    for (int i = 0; i < numberOfPoints; ++i) {
+        double theta = 2 * M_PI * i / goldenRatio;
+        double phi = acos(1 - (2 * (i + 0.5) / numberOfPoints));
+        double x = std::cos(theta) * std::sin(phi);
+        double y = std::sin(theta) * std::sin(phi);
+        double z = std::cos(phi);
+        Intersect::Ray_3 ray(originPoint, Intersect::Point_3 (x, y, z));
+        rays.emplace_back(ray);
+    }
+
+    return rays;
+}
 

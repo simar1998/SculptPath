@@ -33,7 +33,8 @@ std::string VolumeIterator::startIteratorOperations() {
         std::vector<Intersect::Point_3> points;
         Intersect intersectPoints(filePath);
         points = intersectPoints.gridIntersect(10,0.5);
-        Intersect::Point_3 arbitraryPoint(0, 0, 0);
+        Intersect::Point_3 arbitraryPoint(-0.5, -0.5, -0.5);
+        intersectPoints.globularIntersectionAtPoint(arbitraryPoint,1.0,load);
         // Call the isPointInMesh method with the arbitrary point
         bool isInside = intersectPoints.isPointInMesh(arbitraryPoint, mesh);
 
