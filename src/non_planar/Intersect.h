@@ -5,23 +5,16 @@
 #ifndef SCULPTPATH_INTERSECT_H
 #define SCULPTPATH_INTERSECT_H
 
-#include <CGAL/Simple_cartesian.h>
+
 #include <CGAL/Surface_mesh.h>
+#include <CGAL/Simple_cartesian.h>
 #include "../mesh_loader/MeshLoad.h"
+#include "GlobularResult.h"
 #include <CGAL/AABB_tree.h>
 #include <CGAL/AABB_traits.h>
 #include <CGAL/AABB_face_graph_triangle_primitive.h>
 
 enum IntersectType {one_point, two_point};
-
-class MeshIntersectionResult{
-    typedef CGAL::Simple_cartesian<double> Kernel;
-    typedef Kernel::Ray_3 Ray_3;
-    typedef Kernel::Point_3 Point_3;
-
-    MeshIntersectionResult(Point_3  &point, Ray_3 &ray, std::vector<Point_3> meshIntersection);
-
-};
 
 class Intersect {
 public :
@@ -48,7 +41,7 @@ public :
 
     std::vector<Intersect::Point_3> planeIntersect(double zHeight);
 
-    std::vector<MeshIntersectionResult> globularIntersectionAtPoint(Point_3 point3, double globularDensity, MeshLoad meshLoad);
+    std::vector<GlobularResult> globularIntersectionAtPoint(Point_3 point3, double globularDensity, MeshLoad meshLoad);
 
 private:
     std::string filePath;

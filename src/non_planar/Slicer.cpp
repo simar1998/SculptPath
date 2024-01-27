@@ -4,7 +4,7 @@
 
 #include "Slicer.h"
 #include <boost/optional.hpp>
-#include "Intersect.h"
+#include "Slicer.h"
 #include "volume_iterator/VolumeIterator.h"
 
 //Test Slice function
@@ -26,7 +26,7 @@ void Slicer::sliceFile(std::string filePath, Settings settings) {
 **/
 
     std::string offFilePath = "C:\\Code\\SculptPath\\assets\\test_mp_2.off";
-    std::string objFilePath = "C:\\Code\\SculptPath\\assets\\test_mp_2.obj";
+    std::string objFilePath = "/Users/simar/SculptPath/assets/test_mp_2.obj";
    // MeshTriangulation triangulator(objFilePath);
     //triangulator.iterateVolume();
 

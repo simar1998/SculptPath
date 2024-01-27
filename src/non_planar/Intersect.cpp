@@ -13,6 +13,8 @@
 #include <fstream>
 #include "MeshException.h"
 
+
+
 //Creates plane at zOffset from top of mesh and generates a grid from which rays are generated pointing down
 std::vector<Intersect::Point_3> Intersect::gridIntersect(double zOffset, double gridRes) {
 
@@ -183,50 +185,38 @@ std::vector<Intersect::Point_3> Intersect::planeIntersect(double zHeight) {
  * @param meshLoad
  * @return
  */
-std::vector<MeshIntersectionResult> Intersect::globularIntersectionAtPoint(Intersect::Point_3 originPoint, double globularDensity, MeshLoad meshLoad){
+std::vector<GlobularResult> Intersect::globularIntersectionAtPoint(Intersect::Point_3 originPoint, double globularDensity, MeshLoad meshLoad) {
+    std::vector<GlobularResult> result;
 
     Mesh mesh = meshLoad.getMesh();
     if (mesh.is_empty()) {
-        throw MeshException("Mesh Load Failed, nothing is loaded into the mesh");
+        throw std::runtime_error("Mesh Load Failed, nothing is loaded into the mesh");
     }
 
-    std::cout <<"Globular Ray Intersect" << std::endl;
-
-    //Default number of points for globular ray cast is 100
+    std::cout << "Globular Ray Intersect" << std::endl;
 
     int numPoints = 1000;
     double scaleFactor = 1.5;
     double offset = 0.0;
 
-    //Unsure if bad forcing method usage ?
-    std::vector<Intersect::Ray_3> globularRays = generateModifiedFibonacciPoints(numPoints,scaleFactor,offset,originPoint);
+    std::vector<Intersect::Ray_3> globularRays = generateModifiedFibonacciPoints(numPoints, scaleFactor, offset, originPoint);
 
     Tree tree(faces(mesh).first, faces(mesh).second, mesh);
-    std::ofstream outFile("intersection_points.txt");
-
-    outFile << "Origin: " << originPoint.x() << " " << originPoint.y() << " " << originPoint.z() << std::endl;
 
     for (const auto& ray : globularRays) {
         auto intersection = tree.first_intersection(ray);
 
         if (intersection) {
             if (const Point_3* p = boost::get<Point_3>(&intersection->first)) {
-                outFile << p->x() << " " << p->y() << " " << p->z() << std::endl;
+                // Store the intersection result
+                GlobularResult result1(originPoint, ray, *p);
+                result.emplace_back(result1);
             }
         }
     }
 
-    outFile.close();
-
-
-    //Test Visualizer for showing data for analysis
-      system("python C:\\Code\\SculptPath\\src\\visualizer.py");
-
-
-    //Remove
-    return std::vector<MeshIntersectionResult>();
+    return result;
 }
-
 /**
  * Generates fibonacci lattice at point for globular ray brust
  * @param numberOfPoints
