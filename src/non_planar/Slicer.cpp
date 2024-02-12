@@ -46,6 +46,7 @@ void Slicer::sliceFile(std::string filePath, Settings settings) {
    // intersect.gridIntersectRefined(10,0.1,0.005);
 
     VolumeIterator iterator(objFilePath);
-    iterator.startIteratorOperations();
+    iterator.initMesh();
+    iterator.initVolumeTraversal();
 
 }

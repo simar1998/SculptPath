@@ -30,6 +30,8 @@ public:
 
     explicit MeshLoad(std::string filePath);
 
+    MeshLoad();
+
     typedef CGAL::Simple_cartesian<double> Kernel;
     typedef Kernel::Point_3 Point_3;
     typedef Kernel::Point_3 Point;

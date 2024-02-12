@@ -24,6 +24,9 @@ public :
     typedef CGAL::Simple_cartesian<double> Kernel;
     typedef Kernel::Ray_3 Ray_3;
     typedef Kernel::Point_3 Point_3;
+    typedef Kernel::Direction_3 Direction_3;
+    typedef Kernel::Vector_3 Vector_3;
+    typedef Kernel::Plane_3 Plane_3;
     typedef CGAL::AABB_face_graph_triangle_primitive<Mesh> Primitive;
     typedef CGAL::AABB_traits<Kernel, Primitive> AABB_mesh_traits;
     typedef CGAL::AABB_tree<AABB_mesh_traits> Tree;
@@ -41,12 +44,15 @@ public :
 
     std::vector<Intersect::Point_3> planeIntersect(double zHeight);
 
-    std::vector<GlobularResult> globularIntersectionAtPoint(Point_3 point3, double globularDensity, MeshLoad meshLoad);
+    std::vector<GlobularResult> globularIntersectionAtPoint(Point_3 point3, double globularDensity, MeshLoad load);
+
+    std::vector<Intersect::Point_3> planarIntersect(double z);
 
 private:
     std::string filePath;
 
     std::vector<Intersect::Ray_3> generateModifiedFibonacciPoints(int numberOfPoints, double scaleFactor, double offset, Intersect::Point_3 originPoint);
+
 
 };
 

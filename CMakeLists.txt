@@ -28,6 +28,11 @@ add_executable(SculptPath
         src/non_planar/volume_iterator/PointAnalyzer.cpp
         src/non_planar/GlobularResult.cpp
         src/non_planar/GlobularResult.h
+        src/non_planar/volume_iterator/VolumeEntry.cpp
+        src/non_planar/volume_iterator/VolumeEntry.h
+        src/non_planar/volume_iterator/VolumeEntry.h
+        src/non_planar/volume_iterator/CentroidIntersection.cpp
+        src/non_planar/volume_iterator/CentroidIntersection.h
 )
 
 target_link_libraries(SculptPath PRIVATE CGAL::CGAL)

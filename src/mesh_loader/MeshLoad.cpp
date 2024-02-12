@@ -265,3 +265,5 @@ double MeshLoad::getZMax() const {
     return z_max;
 }
 
+MeshLoad::MeshLoad() {}
+

@@ -12,6 +12,15 @@
 #include <iostream>
 #include <fstream>
 #include "MeshException.h"
+#include <CGAL/Simple_cartesian.h>
+#include <CGAL/Surface_mesh.h>
+#include <CGAL/AABB_tree.h>
+#include <CGAL/AABB_traits.h>
+#include <CGAL/AABB_face_graph_triangle_primitive.h>
+#include <CGAL/Polygon_mesh_processing/compute_normal.h>
+#include <CGAL/Polygon_mesh_processing/orientation.h>
+
+
 
 
 
@@ -120,31 +129,42 @@ std::vector<Intersect::Point_3> Intersect::gridIntersectRefined(double zOffset, 
     return intersect_points;
 }
 
-
-//Performs ray intersect with mesh
-std::vector<Intersect::Point_3> Intersect::rayIntersect(Intersect::Ray_3 ray, IntersectType type) {
+// Performs planar intersection at a given z point with mesh
+std::vector<Intersect::Point_3> Intersect::planarIntersect(double z) {
+//    IntersectType type = one_point;
     std::vector<Point_3> intersection_points;
+//
+//    MeshLoad meshLoad(filePath);
+//    Mesh mesh = meshLoad.getMesh();
+//
+//    Tree tree(faces(mesh).first, faces(mesh).second, mesh);
+//
+//    //Change this code so that all intersections are checked and not only the first/second one
+//    if (type == one_point) {
+//        Plane_3 plane(Point_3(0, 0, z), Direction_3(0, 0, 1));
+//        std::vector<Point_3> results;
+//        auto intersection = tree.all_intersections(plane, std::back_inserter(results));
+//        for(const auto& result : results){
+//            intersection_points.push_back(result);
+//        }
+//        for (const auto& point : intersection_points) {
+//            std::cout << "Intersection at: " << point << std::endl;
+//        }
+//    } else if (type == two_point) {
+//        Ray_3 ray(Point_3(0, 0, z), Direction_3(0, 0, 1));
+//        auto intersection = tree.first_intersection(ray);
+//        if (intersection) {
+//            if (const Point_3* p = boost::get<Point_3>(&intersection->first)) {
+//                intersection_points.push_back(*p);
+//            }
+//        }
+//    }
+//
+//    // Process the intersection points
+//    for (const auto& point : intersection_points) {
+//        std::cout << "Intersection at: " << point << std::endl;
+//    }
 
-    MeshLoad meshLoad(filePath);
-    Mesh mesh = meshLoad.getMesh();
-
-    Tree tree(faces(mesh).first, faces(mesh).second, mesh);
-
-    if (type == one_point) {
-        auto intersection = tree.first_intersection(ray);
-        if (intersection) {
-            if (const Point_3* p = boost::get<Point_3>(&intersection->first)) {
-                intersection_points.push_back(*p);
-            }
-        }
-    } else if (type == two_point) {
-        //TODO
-    }
-
-    // Process the intersection points
-    for (const auto& point : intersection_points) {
-        std::cout << "Intersection at: " << point << std::endl;
-    }
     return intersection_points;
 }
 
@@ -185,10 +205,10 @@ std::vector<Intersect::Point_3> Intersect::planeIntersect(double zHeight) {
  * @param meshLoad
  * @return
  */
-std::vector<GlobularResult> Intersect::globularIntersectionAtPoint(Intersect::Point_3 originPoint, double globularDensity, MeshLoad meshLoad) {
+std::vector<GlobularResult> Intersect::globularIntersectionAtPoint(Intersect::Point_3 originPoint, double globularDensity, MeshLoad load) {
     std::vector<GlobularResult> result;
 
-    Mesh mesh = meshLoad.getMesh();
+    Mesh mesh = load.getMesh();
     if (mesh.is_empty()) {
         throw std::runtime_error("Mesh Load Failed, nothing is loaded into the mesh");
     }
@@ -241,4 +261,31 @@ std::vector<Intersect::Ray_3> Intersect::generateModifiedFibonacciPoints(int num
 
     return rays;
 }
+
+/**
+ * Ray intersection with mesh, using AABB trees
+ * @param ray
+ * @param type
+ * @return
+ */
+std::vector<Intersect::Point_3> Intersect::rayIntersect(Ray_3 ray, IntersectType type){
+    std::vector<Point_3> intersection_points;
+
+    MeshLoad meshLoad(filePath);
+    Mesh mesh = meshLoad.getMesh();
+
+    Tree tree(faces(mesh).first, faces(mesh).second, mesh);
+
+    if (type == one_point) {
+        auto intersection = tree.first_intersection(ray);
+        if (intersection) {
+            if (const Point_3* p = boost::get<Point_3>(&intersection->first)) {
+                intersection_points.push_back(*p);
+            }
+        }
+    }
+
+    return intersection_points;
+}
+
 
